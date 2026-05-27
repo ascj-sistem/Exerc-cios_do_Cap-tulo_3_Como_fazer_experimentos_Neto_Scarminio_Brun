@@ -1,0 +1,217 @@
+---
+title: "Fatorial completo com pontos centrais para avaliação de curvatura"
+author: "Andres Stiven Carreño Jerez"
+date: "`r Sys.Date()`"
+output:
+  pdf_document: default
+  html_document:
+    df_print: paged
+  word_document: default
+---
+# Construção Fatorial 2^3 con Puntos Centrales #
+```{r}
+library(FrF2)
+fatoriais=data.frame(A = c(-1,1,-1,1,-1,1,-1,1,0,0,0,0),
+                     B = c(-1,-1,1,1,-1,-1,1,1,0,0,0,0),
+                     C = c(-1,-1,-1,-1,1,1,1,1,0,0,0,0),
+
+Resistencia = c(52,55,50,54,44,49,41,46,53,52,54,53),
+CV = c(4.8,3.9,5.6,4.5,9.8,7.2,13.5,10.1,5.7,5.9,5.6,5.8))
+
+fatoriais
+```
+
+
+```{r}
+mean(c(53,52,54,53))
+mean(c(52,55,50,54,44,49,41,46))
+"53−48.875=4.125"
+sd(c(53,52,54,53))
+```
+# variable indicadora PC
+```{r}
+fatoriais$PC=c(0,0,0,0,0,0,0,0,1,1,1,1)
+# 0 = punto fatorial  1 = punto central
+print(fatoriais)
+fat_only <- fatoriais[fatoriais$PC == 0, ]
+
+```
+# Error puro de centrales
+```{r}
+pc_res=c(53, 52, 54, 53)
+pc_cv=c(5.7, 5.9, 5.6, 5.8)
+
+cat("#ERROR PURO – Resistencia #\n")
+cat(sprintf("Media  ȳ_C : %.4f MPa\n",  mean(pc_res)))
+cat(sprintf("SD puro    : %.4f MPa\n",  sd(pc_res)))
+cat(sprintf("Varianza   : %.4f MPa²\n", var(pc_res)))
+
+cat("\n#ERROR PURO – CV Torque #\n")
+cat(sprintf("Media  ȳ_C : %.4f %%\n",  mean(pc_cv)))
+cat(sprintf("SD puro    : %.4f %%\n",  sd(pc_cv)))
+cat(sprintf("Varianza   : %.4f %%²\n", var(pc_cv)))
+```
+# Comparar medias y calcular curvatura
+```{r}
+# Medias
+y_C_res <- mean(pc_res)          # 53.000
+y_F_res <- mean(c(52,55,50,54,44,49,41,46))  # 48.875
+
+y_C_cv  <- mean(pc_cv)           # 5.750
+y_F_cv  <- mean(c(4.8,3.9,5.6,4.5,9.8,7.2,13.5,10.1))  # 7.425
+
+n_F <- 8   # puntos fatoriales
+n_C <- 4   # puntos centrales
+
+# SS curvatura
+SS_curv_res <- (n_F * n_C / (n_F + n_C)) * (y_C_res - y_F_res)^2
+SS_curv_cv  <- (n_F * n_C / (n_F + n_C)) * (y_C_cv  - y_F_cv)^2
+
+# F curvatura
+F_curv_res <- SS_curv_res / var(pc_res)
+F_curv_cv  <- SS_curv_cv  / var(pc_cv)
+
+cat("\n=== PRUEBA DE CURVATURA ===\n")
+cat(sprintf("Resistencia – Δ = %+.3f MPa | F = %.2f\n",
+            y_C_res - y_F_res, F_curv_res))
+cat(sprintf("CV Torque   – Δ = %+.3f %%  | F = %.2f\n",
+            y_C_cv - y_F_cv, F_curv_cv))
+cat("\nF crítico al 5% con gl(1,3) = 10.13\n")
+cat(sprintf("Curvatura Resistencia: %s\n",
+            ifelse(F_curv_res > 10.13, "SIGNIFICATIVA ✅", "no significativa")))
+cat(sprintf("Curvatura CV Torque  : %s\n",
+            ifelse(F_curv_cv  > 10.13, "SIGNIFICATIVA ✅", "no significativa")))
+```
+# Mod lineales con variable indicadora PC
+```{r}
+# Solo puntos fatoriales para efectos principales
+fatoriais_ptos <- fatoriais[fatoriais$PC == 0, ]
+
+modelo_res <- lm(Resistencia ~ A + B + C + A:B + A:C + B:C + PC,
+                 data = fatoriais)
+modelo_cv  <- lm(CV ~ A + B + C + A:B + A:C + B:C + PC,
+                 data = fatoriais)
+
+cat("\n=== MODELO – Resistencia ===\n")
+summary(modelo_res)
+
+cat("\n=== MODELO – CV Torque ===\n")
+summary(modelo_cv)
+```
+
+# Efectos principales (solo puntos fatoriales)
+```{r}
+y_res <- fatoriais$Resistencia[fatoriais$PC == 0]
+y_cv  <- fatoriais$CV[fatoriais$PC == 0]
+
+efecto <- function(s, y) sum(s * y) / (length(y)/2)
+
+sA  <- c(-1, 1,-1, 1,-1, 1,-1, 1)
+sB  <- c(-1,-1, 1, 1,-1,-1, 1, 1)
+sC  <- c(-1,-1,-1,-1, 1, 1, 1, 1)
+
+cat("\n=== EFECTOS – Resistencia ===\n")
+cat(sprintf("Efecto A: %+.3f MPa\n", efecto(sA, y_res)))
+cat(sprintf("Efecto B: %+.3f MPa\n", efecto(sB, y_res)))
+cat(sprintf("Efecto C: %+.3f MPa\n", efecto(sC, y_res)))
+
+cat("\n=== EFECTOS – CV Torque ===\n")
+cat(sprintf("Efecto A: %+.3f %%\n", efecto(sA, y_cv)))
+cat(sprintf("Efecto B: %+.3f %%\n", efecto(sB, y_cv)))
+cat(sprintf("Efecto C: %+.3f %%\n", efecto(sC, y_cv)))
+```
+
+
+# efeito
+```{r}
+# Ver los 3 gráficos juntos en una sola ventana
+par(mfrow = c(1, 3))
+
+# --- Interacción A×B ---
+with(fat_only,
+     interaction.plot(
+       x.factor     = A,
+       trace.factor  = B,
+       response      = Resistencia,
+       col           = c("steelblue", "tomato"),
+       lwd           = 2,
+       type          = "b",          # línea + puntos
+       main          = "Interacción A×B",
+       xlab          = "A – Temperatura",
+       ylab          = "Resistencia média (MPa)",
+       trace.label   = "B – Rotación"
+     ))
+
+# --- Interacción A×C ---
+with(fat_only,
+     interaction.plot(
+       x.factor     = A,
+       trace.factor  = C,
+       response      = Resistencia,
+       col           = c("steelblue", "tomato"),
+       lwd           = 2,
+       type          = "b",
+       main          = "Interacción A×C",
+       xlab          = "A – Temperatura",
+       ylab          = "Resistencia média (MPa)",
+       trace.label   = "C – Teor de carga"
+     ))
+
+# --- Interacción B×C ---
+with(fat_only,
+     interaction.plot(
+       x.factor     = B,
+       trace.factor  = C,
+       response      = Resistencia,
+       col           = c("steelblue", "tomato"),
+       lwd           = 2,
+       type          = "b",
+       main          = "Interacción B×C",
+       xlab          = "B – Rotación",
+       ylab          = "Resistencia média (MPa)",
+       trace.label   = "C – Teor de carga"
+     ))
+
+# Volver a 1 gráfico por ventana
+par(mfrow = c(1, 1))
+```
+
+# Modelos
+```{r}
+# --- Definir medias ---
+media_fat_res <- mean(fatoriais$Resistencia[fatoriais$PC == 0])
+media_cen_res <- mean(fatoriais$Resistencia[fatoriais$PC == 1])
+
+# --- Barplot ---
+medias <- c(media_fat_res, media_cen_res)
+
+barplot(medias,
+        names.arg = c("Fatoriais\n(n=8)", "Centrais\n(n=4)"),
+        col       = c("steelblue", "tomato"),
+        ylab      = "Resistência média (MPa)",
+        main      = "Comparação: Pontos Fatoriais vs. Centrais",
+        ylim      = c(40, 60))
+
+abline(h   = medias,
+       lty = 2,
+       col = c("steelblue","tomato"))
+
+text(0.7, media_fat_res + 0.5,
+     sprintf("%.2f", media_fat_res),
+     col = "steelblue")
+
+text(1.9, media_cen_res + 0.5,
+     sprintf("%.2f", media_cen_res),
+     col = "tomato")
+```
+```{r}
+```
+
+
+
+
+
+
+
+
+

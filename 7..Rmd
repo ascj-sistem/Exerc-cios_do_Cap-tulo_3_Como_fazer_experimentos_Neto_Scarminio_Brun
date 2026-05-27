@@ -1,0 +1,150 @@
+---
+title: "Planejamento fatorial completo com duplicata na área térmica"
+author: "Andres Stiven Carreño Jerez"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    df_print: paged
+  pdf_document: default
+  word_document: default
+---
+
+# Construção Fatorial completo 2² con duplicata experimental
+```{r}
+library(FrF2)
+dados1=data.frame(A = c(-1,-1,1,1,-1,-1,1,1),
+                    B = c(-1,-1,-1,-1,1,1,1,1), 
+                  rep = c(1,2,1,2,1,2,1,2),
+                    k = c(0.31,0.33,0.58,0.61,0.35,0.36,0.72,0.75))
+
+dados1
+```
+# Médias e desvios por condição
+```{r}
+condicoes=aggregate(k ~ A + B, data = dados1,
+                       FUN = function(x) c(media = mean(x), dp = sd(x)))
+cat("\n=== MÉDIA E DP POR CONDIÇÃO ===\n")
+print(condicoes)
+```
+# Calcular efeitos
+```{r}
+y=dados1$k
+sA=dados1$A
+sB=dados1$B
+sAB=sA * sB
+
+efecto <- function(s, y) sum(s * y) / (length(y)/2)
+
+cat("\n=== EFEITOS ===\n")
+cat(sprintf("Efeito A  (Grafite)   : %+.5f W/(m·K)\n", efecto(sA,  y)))
+cat(sprintf("Efeito B  (Temperatura): %+.5f W/(m·K)\n", efecto(sB,  y)))
+cat(sprintf("Efeito AB              : %+.5f W/(m·K)\n", efecto(sAB, y)))
+```
+# ANOVA
+```{r}
+dados1$A <- as.factor(dados1$A)
+dados1$B <- as.factor(dados1$B)
+
+modelo7 <- lm(k ~ A * B, data = dados1)
+
+print(anova(modelo7))
+print(summary(modelo7))
+```
+# Grafo Efe
+```{r}
+plano7=FrF2(nruns    = 4,nfactors = 2,factor.names = list(A = c(-1, 1),B = c(-1, 1)),randomize = FALSE
+)
+# ✅ Agregar respuesta con add.response() — NO con $
+k_medias=c(0.320, 0.595, 0.355, 0.735)
+plano7=add.response(plano7, k_medias)
+
+# Verificar que quedó bien
+print(plano7)
+
+# Gráfico de efectos principales
+MEPlot(plano7,
+       response = "k_medias",
+       main     = "Efeitos Principais – Condutividade Térmica k")
+
+# Gráfico de interacción
+IAPlot(plano7,
+       response = "k_medias",
+       main     = "Interação A×B – Grafite vs. Temperatura")
+```
+
+# Grafo Efe
+
+El factor más importante fue:
+★ A – Teor de grafite expandido (efecto = +0,3275 W·m⁻¹·K⁻¹)
+
+Su efecto POSITIVO indica que pasar del nivel bajo
+al nivel alto AUMENTA fuertemente la conductividad:
+  - Nivel bajo = 5%  de grafite expandido
+  - Nivel alto = 15% de grafite expandido
+→ Mayor concentración de grafite maximiza la conducción
+  térmica del compósito.
+
+═══════════════════════════════════════════════════════════
+EFECTOS PRINCIPALES
+═══════════════════════════════════════════════════════════
+  A (Teor grafite)    : +0,3275 W·m⁻¹·K⁻¹ → DOMINANTE ★
+  B (Temp. prensagem) : +0,0875 W·m⁻¹·K⁻¹ → moderado
+  A×B (interacción)   : +0,0525 W·m⁻¹·K⁻¹ → significativa
+
+═══════════════════════════════════════════════════════════
+ANOVA – SIGNIFICANCIA ESTADÍSTICA
+═══════════════════════════════════════════════════════════
+  Fuente   F calculado   F crítico(5%)   Conclusión
+  ──────────────────────────────────────────────────
+  A          746,1          7,71         SIGNIFICATIVO ✅
+  B           53,3          7,71         SIGNIFICATIVO ✅
+  A×B         19,2          7,71         SIGNIFICATIVO ✅
+  ──────────────────────────────────────────────────
+  Los TRES efectos son estadísticamente significativos.
+
+═══════════════════════════════════════════════════════════
+INTERACCIÓN A×B — SINERGIA ENTRE FACTORES
+═══════════════════════════════════════════════════════════
+  Con bajo grafite (5%):
+    B sube k apenas  +0,035 W·m⁻¹·K⁻¹
+
+  Con alto grafite (15%):
+    B sube k en      +0,140 W·m⁻¹·K⁻¹
+
+  → La temperatura de prensagem ayuda MUCHO MÁS
+    cuando hay alta concentración de grafite.
+  → Los dos factores actúan en SINERGIA — juntos
+    producen un efecto mayor que la suma individual.
+
+═══════════════════════════════════════════════════════════
+REPETIBILIDAD DEL EXPERIMENTO
+═══════════════════════════════════════════════════════════
+  Condición        k̄ (W·m⁻¹·K⁻¹)    DP
+  ─────────────────────────────────────────
+  A=5%,  T=170°C      0,320         0,0141
+  A=15%, T=170°C      0,595         0,0212
+  A=5%,  T=190°C      0,355         0,0071
+  A=15%, T=190°C      0,735         0,0212
+  ─────────────────────────────────────────
+  Todos los DP son pequeños → alta repetibilidad ✅
+  El experimento es confiable y reproducible.
+
+═══════════════════════════════════════════════════════════
+MEJOR CONDICIÓN EXPERIMENTAL
+═══════════════════════════════════════════════════════════
+  Para MAXIMIZAR la conductividad térmica:
+
+  → ENSAYO condición 4:
+      - Teor de grafite    : 15%   (nivel alto)
+      - Temp. de prensagem : 190°C (nivel alto)
+      - k média            : 0,735 W·m⁻¹·K⁻¹  ← mayor valor
+      - DP                 : 0,021              ← repetible ✅
+      - CV                 : 2,9%               ← excelente ✅
+
+  Esta condición aprovecha la SINERGIA A×B:
+  el grafite forma redes conductoras (percolación)
+  y la alta temperatura mejora el contacto entre
+  partículas durante la prensagem.
+
+
+

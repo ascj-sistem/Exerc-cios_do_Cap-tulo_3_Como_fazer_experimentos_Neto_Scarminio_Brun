@@ -1,0 +1,435 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\documentclass[
+]{article}
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx}
+\makeatletter
+\newsavebox\pandoc@box
+\newcommand*\pandocbounded[1]{% scales image to fit in text height/width
+  \sbox\pandoc@box{#1}%
+  \Gscale@div\@tempa{\textheight}{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+  \Gscale@div\@tempb{\linewidth}{\wd\pandoc@box}%
+  \ifdim\@tempb\p@<\@tempa\p@\let\@tempa\@tempb\fi% select the smaller of both
+  \ifdim\@tempa\p@<\p@\scalebox{\@tempa}{\usebox\pandoc@box}%
+  \else\usebox{\pandoc@box}%
+  \fi%
+}
+% Set default figure placement to htbp
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={Planejamento fatorial completo com duplicata na área térmica},
+  pdfauthor={Andres Stiven Carreño Jerez},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{Planejamento fatorial completo com duplicata na área térmica}
+\author{Andres Stiven Carreño Jerez}
+\date{2026-05-26}
+
+\begin{document}
+\maketitle
+
+\section{Construção Fatorial completo 2² con duplicata
+experimental}\label{construuxe7uxe3o-fatorial-completo-2uxb2-con-duplicata-experimental}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(FrF2)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Cargando paquete requerido: DoE.base
+\end{verbatim}
+
+\begin{verbatim}
+## Cargando paquete requerido: grid
+\end{verbatim}
+
+\begin{verbatim}
+## Cargando paquete requerido: conf.design
+\end{verbatim}
+
+\begin{verbatim}
+## Registered S3 method overwritten by 'DoE.base':
+##   method           from       
+##   factorize.factor conf.design
+\end{verbatim}
+
+\begin{verbatim}
+## 
+## Adjuntando el paquete: 'DoE.base'
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from 'package:stats':
+## 
+##     aov, lm
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:graphics':
+## 
+##     plot.design
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:base':
+## 
+##     lengths
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{dados1}\OtherTok{=}\FunctionTok{data.frame}\NormalTok{(}\AttributeTok{A =} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{,}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{,}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{,}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{),}
+                    \AttributeTok{B =} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{,}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{,}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{,}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{), }
+                  \AttributeTok{rep =} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{,}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{,}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{,}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{),}
+                    \AttributeTok{k =} \FunctionTok{c}\NormalTok{(}\FloatTok{0.31}\NormalTok{,}\FloatTok{0.33}\NormalTok{,}\FloatTok{0.58}\NormalTok{,}\FloatTok{0.61}\NormalTok{,}\FloatTok{0.35}\NormalTok{,}\FloatTok{0.36}\NormalTok{,}\FloatTok{0.72}\NormalTok{,}\FloatTok{0.75}\NormalTok{))}
+
+\NormalTok{dados1}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    A  B rep    k
+## 1 -1 -1   1 0.31
+## 2 -1 -1   2 0.33
+## 3  1 -1   1 0.58
+## 4  1 -1   2 0.61
+## 5 -1  1   1 0.35
+## 6 -1  1   2 0.36
+## 7  1  1   1 0.72
+## 8  1  1   2 0.75
+\end{verbatim}
+
+\section{Médias e desvios por
+condição}\label{muxe9dias-e-desvios-por-condiuxe7uxe3o}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{condicoes}\OtherTok{=}\FunctionTok{aggregate}\NormalTok{(k }\SpecialCharTok{\textasciitilde{}}\NormalTok{ A }\SpecialCharTok{+}\NormalTok{ B, }\AttributeTok{data =}\NormalTok{ dados1,}
+                       \AttributeTok{FUN =} \ControlFlowTok{function}\NormalTok{(x) }\FunctionTok{c}\NormalTok{(}\AttributeTok{media =} \FunctionTok{mean}\NormalTok{(x), }\AttributeTok{dp =} \FunctionTok{sd}\NormalTok{(x)))}
+\FunctionTok{cat}\NormalTok{(}\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{=== MÉDIA E DP POR CONDIÇÃO ===}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## === MÉDIA E DP POR CONDIÇÃO ===
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{print}\NormalTok{(condicoes)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    A  B     k.media        k.dp
+## 1 -1 -1 0.320000000 0.014142136
+## 2  1 -1 0.595000000 0.021213203
+## 3 -1  1 0.355000000 0.007071068
+## 4  1  1 0.735000000 0.021213203
+\end{verbatim}
+
+\section{Calcular efeitos}\label{calcular-efeitos}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{y}\OtherTok{=}\NormalTok{dados1}\SpecialCharTok{$}\NormalTok{k}
+\NormalTok{sA}\OtherTok{=}\NormalTok{dados1}\SpecialCharTok{$}\NormalTok{A}
+\NormalTok{sB}\OtherTok{=}\NormalTok{dados1}\SpecialCharTok{$}\NormalTok{B}
+\NormalTok{sAB}\OtherTok{=}\NormalTok{sA }\SpecialCharTok{*}\NormalTok{ sB}
+
+\NormalTok{efecto }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(s, y) }\FunctionTok{sum}\NormalTok{(s }\SpecialCharTok{*}\NormalTok{ y) }\SpecialCharTok{/}\NormalTok{ (}\FunctionTok{length}\NormalTok{(y)}\SpecialCharTok{/}\DecValTok{2}\NormalTok{)}
+
+\FunctionTok{cat}\NormalTok{(}\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{=== EFEITOS ===}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## === EFEITOS ===
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\FunctionTok{sprintf}\NormalTok{(}\StringTok{"Efeito A  (Grafite)   : \%+.5f W/(m·K)}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{, }\FunctionTok{efecto}\NormalTok{(sA,  y)))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Efeito A  (Grafite)   : +0.32750 W/(m·K)
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\FunctionTok{sprintf}\NormalTok{(}\StringTok{"Efeito B  (Temperatura): \%+.5f W/(m·K)}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{, }\FunctionTok{efecto}\NormalTok{(sB,  y)))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Efeito B  (Temperatura): +0.08750 W/(m·K)
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\FunctionTok{sprintf}\NormalTok{(}\StringTok{"Efeito AB              : \%+.5f W/(m·K)}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{, }\FunctionTok{efecto}\NormalTok{(sAB, y)))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Efeito AB              : +0.05250 W/(m·K)
+\end{verbatim}
+
+\section{ANOVA}\label{anova}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{dados1}\SpecialCharTok{$}\NormalTok{A }\OtherTok{\textless{}{-}} \FunctionTok{as.factor}\NormalTok{(dados1}\SpecialCharTok{$}\NormalTok{A)}
+\NormalTok{dados1}\SpecialCharTok{$}\NormalTok{B }\OtherTok{\textless{}{-}} \FunctionTok{as.factor}\NormalTok{(dados1}\SpecialCharTok{$}\NormalTok{B)}
+
+\NormalTok{modelo7 }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(k }\SpecialCharTok{\textasciitilde{}}\NormalTok{ A }\SpecialCharTok{*}\NormalTok{ B, }\AttributeTok{data =}\NormalTok{ dados1)}
+
+\FunctionTok{print}\NormalTok{(}\FunctionTok{anova}\NormalTok{(modelo7))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Analysis of Variance Table
+## 
+## Response: k
+##           Df   Sum Sq  Mean Sq F value    Pr(>F)    
+## A          1 0.214513 0.214513 746.130 1.068e-05 ***
+## B          1 0.015313 0.015313  53.261  0.001874 ** 
+## A:B        1 0.005512 0.005512  19.174  0.011886 *  
+## Residuals  4 0.001150 0.000288                      
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{print}\NormalTok{(}\FunctionTok{summary}\NormalTok{(modelo7))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## lm.default(formula = k ~ A * B, data = dados1)
+## 
+## Residuals:
+##      1      2      3      4      5      6      7      8 
+## -0.010  0.010 -0.015  0.015 -0.005  0.005 -0.015  0.015 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)  0.32000    0.01199  26.690 1.17e-05 ***
+## A1           0.27500    0.01696  16.219 8.46e-05 ***
+## B1           0.03500    0.01696   2.064   0.1079    
+## A1:B1        0.10500    0.02398   4.379   0.0119 *  
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 0.01696 on 4 degrees of freedom
+## Multiple R-squared:  0.9951, Adjusted R-squared:  0.9915 
+## F-statistic: 272.9 on 3 and 4 DF,  p-value: 4.427e-05
+\end{verbatim}
+
+\section{Grafo Efe}\label{grafo-efe}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{plano7}\OtherTok{=}\FunctionTok{FrF2}\NormalTok{(}\AttributeTok{nruns    =} \DecValTok{4}\NormalTok{,}\AttributeTok{nfactors =} \DecValTok{2}\NormalTok{,}\AttributeTok{factor.names =} \FunctionTok{list}\NormalTok{(}\AttributeTok{A =} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{, }\DecValTok{1}\NormalTok{),}\AttributeTok{B =} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{, }\DecValTok{1}\NormalTok{)),}\AttributeTok{randomize =} \ConstantTok{FALSE}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## creating full factorial with 4 runs ...
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# ✅ Agregar respuesta con add.response() — NO con $}
+\NormalTok{k\_medias}\OtherTok{=}\FunctionTok{c}\NormalTok{(}\FloatTok{0.320}\NormalTok{, }\FloatTok{0.595}\NormalTok{, }\FloatTok{0.355}\NormalTok{, }\FloatTok{0.735}\NormalTok{)}
+\NormalTok{plano7}\OtherTok{=}\FunctionTok{add.response}\NormalTok{(plano7, k\_medias)}
+
+\CommentTok{\# Verificar que quedó bien}
+\FunctionTok{print}\NormalTok{(plano7)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    A  B k_medias
+## 1 -1 -1    0.320
+## 2  1 -1    0.595
+## 3 -1  1    0.355
+## 4  1  1    0.735
+## class=design, type= full factorial
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Gráfico de efectos principales}
+\FunctionTok{MEPlot}\NormalTok{(plano7,}
+       \AttributeTok{response =} \StringTok{"k\_medias"}\NormalTok{,}
+       \AttributeTok{main     =} \StringTok{"Efeitos Principais – Condutividade Térmica k"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{7._files/7._files/figure-latex/unnamed-chunk-5-1.pdf}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Gráfico de interacción}
+\FunctionTok{IAPlot}\NormalTok{(plano7,}
+       \AttributeTok{response =} \StringTok{"k\_medias"}\NormalTok{,}
+       \AttributeTok{main     =} \StringTok{"Interação A×B – Grafite vs. Temperatura"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{7._files/7._files/figure-latex/unnamed-chunk-5-2.pdf}}
+
+\section{Grafo Efe}\label{grafo-efe-1}
+
+El factor más importante fue: ★ A -- Teor de grafite expandido (efecto =
++0,3275 W·m⁻¹·K⁻¹)
+
+Su efecto POSITIVO indica que pasar del nivel bajo al nivel alto AUMENTA
+fuertemente la conductividad: - Nivel bajo = 5\% de grafite expandido -
+Nivel alto = 15\% de grafite expandido → Mayor concentración de grafite
+maximiza la conducción térmica del compósito.
+
+═══════════════════════════════════════════════════════════ EFECTOS
+PRINCIPALES ═══════════════════════════════════════════════════════════
+A (Teor grafite) : +0,3275 W·m⁻¹·K⁻¹ → DOMINANTE ★ B (Temp. prensagem) :
++0,0875 W·m⁻¹·K⁻¹ → moderado A×B (interacción) : +0,0525 W·m⁻¹·K⁻¹ →
+significativa
+
+═══════════════════════════════════════════════════════════ ANOVA --
+SIGNIFICANCIA ESTADÍSTICA
+═══════════════════════════════════════════════════════════ Fuente F
+calculado F crítico(5\%) Conclusión
+────────────────────────────────────────────────── A 746,1 7,71
+SIGNIFICATIVO ✅ B 53,3 7,71 SIGNIFICATIVO ✅ A×B 19,2 7,71
+SIGNIFICATIVO ✅ ────────────────────────────────────────────────── Los
+TRES efectos son estadísticamente significativos.
+
+═══════════════════════════════════════════════════════════ INTERACCIÓN
+A×B --- SINERGIA ENTRE FACTORES
+═══════════════════════════════════════════════════════════ Con bajo
+grafite (5\%): B sube k apenas +0,035 W·m⁻¹·K⁻¹
+
+Con alto grafite (15\%): B sube k en +0,140 W·m⁻¹·K⁻¹
+
+→ La temperatura de prensagem ayuda MUCHO MÁS cuando hay alta
+concentración de grafite. → Los dos factores actúan en SINERGIA ---
+juntos producen un efecto mayor que la suma individual.
+
+═══════════════════════════════════════════════════════════
+REPETIBILIDAD DEL EXPERIMENTO
+═══════════════════════════════════════════════════════════ Condición k̄
+(W·m⁻¹·K⁻¹) DP ───────────────────────────────────────── A=5\%, T=170°C
+0,320 0,0141 A=15\%, T=170°C 0,595 0,0212 A=5\%, T=190°C 0,355 0,0071
+A=15\%, T=190°C 0,735 0,0212 ─────────────────────────────────────────
+Todos los DP son pequeños → alta repetibilidad ✅ El experimento es
+confiable y reproducible.
+
+═══════════════════════════════════════════════════════════ MEJOR
+CONDICIÓN EXPERIMENTAL
+═══════════════════════════════════════════════════════════ Para
+MAXIMIZAR la conductividad térmica:
+
+→ ENSAYO condición 4: - Teor de grafite : 15\% (nivel alto) - Temp. de
+prensagem : 190°C (nivel alto) - k média : 0,735 W·m⁻¹·K⁻¹ ← mayor valor
+- DP : 0,021 ← repetible ✅ - CV : 2,9\% ← excelente ✅
+
+Esta condición aprovecha la SINERGIA A×B: el grafite forma redes
+conductoras (percolación) y la alta temperatura mejora el contacto entre
+partículas durante la prensagem.
+
+\end{document}

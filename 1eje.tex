@@ -1,0 +1,393 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\documentclass[
+]{article}
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx}
+\makeatletter
+\newsavebox\pandoc@box
+\newcommand*\pandocbounded[1]{% scales image to fit in text height/width
+  \sbox\pandoc@box{#1}%
+  \Gscale@div\@tempa{\textheight}{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+  \Gscale@div\@tempb{\linewidth}{\wd\pandoc@box}%
+  \ifdim\@tempb\p@<\@tempa\p@\let\@tempa\@tempb\fi% select the smaller of both
+  \ifdim\@tempa\p@<\p@\scalebox{\@tempa}{\usebox\pandoc@box}%
+  \else\usebox{\pandoc@box}%
+  \fi%
+}
+% Set default figure placement to htbp
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={Extrusión de filamentos de PLA para fabricación aditiva},
+  pdfauthor={Andres Stiven Carreño Jerez},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{Extrusión de filamentos de PLA para fabricación aditiva}
+\author{Andres Stiven Carreño Jerez}
+\date{}
+
+\begin{document}
+\maketitle
+
+\section{Construção de planejamento
+fracionário}\label{construuxe7uxe3o-de-planejamento-fracionuxe1rio}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(FrF2)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Cargando paquete requerido: DoE.base
+\end{verbatim}
+
+\begin{verbatim}
+## Cargando paquete requerido: grid
+\end{verbatim}
+
+\begin{verbatim}
+## Cargando paquete requerido: conf.design
+\end{verbatim}
+
+\begin{verbatim}
+## Registered S3 method overwritten by 'DoE.base':
+##   method           from       
+##   factorize.factor conf.design
+\end{verbatim}
+
+\begin{verbatim}
+## 
+## Adjuntando el paquete: 'DoE.base'
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from 'package:stats':
+## 
+##     aov, lm
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:graphics':
+## 
+##     plot.design
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:base':
+## 
+##     lengths
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{fatorial1}\OtherTok{=}\FunctionTok{FrF2}\NormalTok{(}\AttributeTok{nruns =} \DecValTok{8}\NormalTok{, }\AttributeTok{nfactors =} \DecValTok{3}\NormalTok{ , }\AttributeTok{factor.names =} \FunctionTok{list}\NormalTok{(}\AttributeTok{Temp =} \FunctionTok{c}\NormalTok{(}\DecValTok{180}\NormalTok{, }\DecValTok{200}\NormalTok{), }\AttributeTok{Rot =} \FunctionTok{c}\NormalTok{(}\DecValTok{30}\NormalTok{, }\DecValTok{60}\NormalTok{), }\AttributeTok{Vel =} \FunctionTok{c}\NormalTok{(}\FloatTok{1.0}\NormalTok{, }\FloatTok{2.0}\NormalTok{)),}
+                 \AttributeTok{randomize =} \ConstantTok{FALSE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## creating full factorial with 8 runs ...
+\end{verbatim}
+
+\section{Digite a resposta
+(diâmetro)}\label{digite-a-resposta-diuxe2metro}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{diam}\OtherTok{=} \FunctionTok{c}\NormalTok{(}\FloatTok{1.92}\NormalTok{, }\FloatTok{1.86}\NormalTok{, }\FloatTok{2.05}\NormalTok{, }\FloatTok{1.98}\NormalTok{, }\FloatTok{1.70}\NormalTok{, }\FloatTok{1.65}\NormalTok{, }\FloatTok{1.82}\NormalTok{, }\FloatTok{1.76}\NormalTok{)}
+\NormalTok{fatorial2}\OtherTok{=}\FunctionTok{add.response}\NormalTok{(fatorial1,diam)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{print}\NormalTok{(fatorial2)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   Temp Rot Vel diam
+## 1  180  30   1 1.92
+## 2  200  30   1 1.86
+## 3  180  60   1 2.05
+## 4  200  60   1 1.98
+## 5  180  30   2 1.70
+## 6  200  30   2 1.65
+## 7  180  60   2 1.82
+## 8  200  60   2 1.76
+## class=design, type= full factorial
+\end{verbatim}
+
+\section{Ajuste um modelo onde o diâmetro seja uma função de A, B, C e
+todas as suas
+interações.}\label{ajuste-um-modelo-onde-o-diuxe2metro-seja-uma-funuxe7uxe3o-de-a-b-c-e-todas-as-suas-interauxe7uxf5es.}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{mod\_compl}\OtherTok{=}\FunctionTok{lm}\NormalTok{(diam }\SpecialCharTok{\textasciitilde{}}\NormalTok{ Temp }\SpecialCharTok{*}\NormalTok{ Rot }\SpecialCharTok{*}\NormalTok{ Vel, }\AttributeTok{data =}\NormalTok{ fatorial1)}
+\FunctionTok{summary}\NormalTok{(mod\_compl)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## lm.default(formula = diam ~ Temp * Rot * Vel, data = fatorial1)
+## 
+## Residuals:
+## ALL 8 residuals are 0: no residual degrees of freedom!
+## 
+## Coefficients:
+##                   Estimate Std. Error t value Pr(>|t|)
+## (Intercept)      1.842e+00        NaN     NaN      NaN
+## Temp1           -3.000e-02        NaN     NaN      NaN
+## Rot1             6.000e-02        NaN     NaN      NaN
+## Vel1            -1.100e-01        NaN     NaN      NaN
+## Temp1:Rot1      -2.500e-03        NaN     NaN      NaN
+## Temp1:Vel1       2.500e-03        NaN     NaN      NaN
+## Rot1:Vel1       -2.500e-03        NaN     NaN      NaN
+## Temp1:Rot1:Vel1  2.208e-17        NaN     NaN      NaN
+## 
+## Residual standard error: NaN on 0 degrees of freedom
+## Multiple R-squared:      1,  Adjusted R-squared:    NaN 
+## F-statistic:   NaN on 7 and 0 DF,  p-value: NA
+\end{verbatim}
+
+\section{↑↑↑ Modelo saturado, e sempre ocorre em um desenho 2³ sem
+réplicas.}\label{modelo-saturado-e-sempre-ocorre-em-um-desenho-2uxb3-sem-ruxe9plicas.}
+
+\section{↓↓↓ Gráfico (meio-normal) para identificar efeitos
+importantes.}\label{gruxe1fico-meio-normal-para-identificar-efeitos-importantes.}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{DanielPlot}\NormalTok{(mod\_compl)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{1eje_files/1eje_files/figure-latex/unnamed-chunk-5-1.pdf}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{Efeitos}\OtherTok{=}\DecValTok{2}\SpecialCharTok{*}\NormalTok{mod\_compl}\SpecialCharTok{$}\NormalTok{coefficients}
+
+\NormalTok{Efeitos}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##     (Intercept)           Temp1            Rot1            Vel1      Temp1:Rot1 
+##    3.685000e+00   -6.000000e-02    1.200000e-01   -2.200000e-01   -5.000000e-03 
+##      Temp1:Vel1       Rot1:Vel1 Temp1:Rot1:Vel1 
+##    5.000000e-03   -5.000000e-03    4.415885e-17
+\end{verbatim}
+
+\section{↓↓↓ Uma apresentação
+melhor}\label{uma-apresentauxe7uxe3o-melhor}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{Efeitos}\OtherTok{=}\DecValTok{2}\SpecialCharTok{*}\NormalTok{mod\_compl}\SpecialCharTok{$}\NormalTok{coefficients}
+
+\FunctionTok{data.frame}\NormalTok{(  }\AttributeTok{Efecto =} \FunctionTok{c}\NormalTok{(}\StringTok{"Media"}\NormalTok{, }\StringTok{"A(Temp)"}\NormalTok{, }\StringTok{"B(Rot)"}\NormalTok{, }\StringTok{"C(Vel)"}\NormalTok{,}\StringTok{"AB"}\NormalTok{, }\StringTok{"AC"}\NormalTok{, }\StringTok{"BC"}\NormalTok{, }\StringTok{"ABC"}\NormalTok{), }\AttributeTok{Valor  =} \FunctionTok{round}\NormalTok{(Efeitos, }\DecValTok{5}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##                  Efecto  Valor
+## (Intercept)       Media  3.685
+## Temp1           A(Temp) -0.060
+## Rot1             B(Rot)  0.120
+## Vel1             C(Vel) -0.220
+## Temp1:Rot1           AB -0.005
+## Temp1:Vel1           AC  0.005
+## Rot1:Vel1            BC -0.005
+## Temp1:Rot1:Vel1     ABC  0.000
+\end{verbatim}
+
+\section{Efeitos Principais e
+Interações}\label{efeitos-principais-e-interauxe7uxf5es}
+
+\section{Gráfico de Efeitos
+Principais}\label{gruxe1fico-de-efeitos-principais}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{MEPlot}\NormalTok{(fatorial2)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{1eje_files/1eje_files/figure-latex/unnamed-chunk-8-1.pdf}}
+\# Gráfico de interação
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{IAPlot}\NormalTok{(fatorial2)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{1eje_files/1eje_files/figure-latex/unnamed-chunk-9-1.pdf}}
+
+\section{¿Qué ensayo produce diámetro más cercano a 1,75 mm?
+---}\label{quuxe9-ensayo-produce-diuxe1metro-muxe1s-cercano-a-175-mm}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{fatorial2}\SpecialCharTok{$}\NormalTok{error\_nominal}\OtherTok{=}\FunctionTok{abs}\NormalTok{(fatorial2}\SpecialCharTok{$}\NormalTok{diam }\SpecialCharTok{{-}} \FloatTok{1.75}\NormalTok{)}
+\FunctionTok{cat}\NormalTok{(}\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{{-}{-}{-} Ensayo más cercano a 1,75 mm {-}{-}{-}}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## --- Ensayo más cercano a 1,75 mm ---
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{print}\NormalTok{(fatorial2[}\FunctionTok{order}\NormalTok{(fatorial2}\SpecialCharTok{$}\NormalTok{error\_nominal), }\FunctionTok{c}\NormalTok{(}\StringTok{"Temp"}\NormalTok{,}\StringTok{"Rot"}\NormalTok{,}\StringTok{"Vel"}\NormalTok{,}\StringTok{"diam"}\NormalTok{,}\StringTok{"error\_nominal"}\NormalTok{)])}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   Temp Rot Vel diam error_nominal
+## 8  200  60   2 1.76          0.01
+## 5  180  30   2 1.70          0.05
+## 7  180  60   2 1.82          0.07
+## 6  200  30   2 1.65          0.10
+## 2  200  30   1 1.86          0.11
+## 1  180  30   1 1.92          0.17
+## 4  200  60   1 1.98          0.23
+## 3  180  60   1 2.05          0.30
+\end{verbatim}
+
+El factor más importante fue: C -- Velocidad de arrastre (efecto =
+−0,220 mm)
+
+\section{--- Su efecto NEGATIVO indica que pasar del nivel
+bajo}\label{su-efecto-negativo-indica-que-pasar-del-nivel-bajo}
+
+al nivel alto REDUCE significativamente el diámetro. En este caso: -
+Nivel bajo = 1,0 m/min - Nivel alto = 2,0 m/min → Mayor velocidad de
+arrastre produce filamentos más delgados.
+
+\section{--- Los demás factores
+presentaron:}\label{los-demuxe1s-factores-presentaron}
+
+\begin{itemize}
+\tightlist
+\item
+  B (Rotación): efecto moderado positivo (+0,120 mm) Mayor rotación →
+  más material → filamento más grueso
+\item
+  A (Temperatura): efecto pequeño negativo (−0,060 mm) Mayor temperatura
+  → menor viscosidad → filamento más delgado
+\item
+  AB, AC, BC, ABC: efectos despreciables (≤ 0,005 mm) Los factores
+  actúan de forma independiente entre sí
+\end{itemize}
+
+\section{--- La mejor condición experimental para
+alcanzar}\label{la-mejor-condiciuxf3n-experimental-para-alcanzar}
+
+el diámetro nominal de 1,75 mm fue el ENSAYO 8: - Temperatura : 200 °C
+(nivel alto) - Rotación : 60 rpm (nivel alto) - Vel. arrastre: 2,0 m/min
+(nivel alto) - Diámetro obtenido : 1,76 mm - Error al nominal : 0,01 mm
+← menor de todos
+
+\section{--- Esta condición también
+presentó:}\label{esta-condiciuxf3n-tambiuxe9n-presentuxf3}
+
+\begin{itemize}
+\tightlist
+\item
+  Menor desviación estándar del diámetro (DP = 0,040 mm)
+\item
+  Menor ovalización (2,1\%) → Es la condición más precisa Y más exacta
+  del experimento.
+\end{itemize}
+
+\end{document}

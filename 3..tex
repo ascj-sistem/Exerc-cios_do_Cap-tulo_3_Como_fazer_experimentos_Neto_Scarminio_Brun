@@ -1,0 +1,734 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\documentclass[
+]{article}
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx}
+\makeatletter
+\newsavebox\pandoc@box
+\newcommand*\pandocbounded[1]{% scales image to fit in text height/width
+  \sbox\pandoc@box{#1}%
+  \Gscale@div\@tempa{\textheight}{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+  \Gscale@div\@tempb{\linewidth}{\wd\pandoc@box}%
+  \ifdim\@tempb\p@<\@tempa\p@\let\@tempa\@tempb\fi% select the smaller of both
+  \ifdim\@tempa\p@<\p@\scalebox{\@tempa}{\usebox\pandoc@box}%
+  \else\usebox{\pandoc@box}%
+  \fi%
+}
+% Set default figure placement to htbp
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={Fatorial completo com pontos centrais para avaliação de curvatura},
+  pdfauthor={Andres Stiven Carreño Jerez},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{Fatorial completo com pontos centrais para avaliação de
+curvatura}
+\author{Andres Stiven Carreño Jerez}
+\date{2026-05-25}
+
+\begin{document}
+\maketitle
+
+\section{Construção Fatorial 2\^{}3 con Puntos
+Centrales}\label{construuxe7uxe3o-fatorial-23-con-puntos-centrales}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(FrF2)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Cargando paquete requerido: DoE.base
+\end{verbatim}
+
+\begin{verbatim}
+## Cargando paquete requerido: grid
+\end{verbatim}
+
+\begin{verbatim}
+## Cargando paquete requerido: conf.design
+\end{verbatim}
+
+\begin{verbatim}
+## Registered S3 method overwritten by 'DoE.base':
+##   method           from       
+##   factorize.factor conf.design
+\end{verbatim}
+
+\begin{verbatim}
+## 
+## Adjuntando el paquete: 'DoE.base'
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from 'package:stats':
+## 
+##     aov, lm
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:graphics':
+## 
+##     plot.design
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:base':
+## 
+##     lengths
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{fatoriais}\OtherTok{=}\FunctionTok{data.frame}\NormalTok{(}\AttributeTok{A =} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{,}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{,}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{,}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{),}
+                     \AttributeTok{B =} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{,}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{,}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{,}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{),}
+                     \AttributeTok{C =} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{,}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{,}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{,}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{),}
+
+\AttributeTok{Resistencia =} \FunctionTok{c}\NormalTok{(}\DecValTok{52}\NormalTok{,}\DecValTok{55}\NormalTok{,}\DecValTok{50}\NormalTok{,}\DecValTok{54}\NormalTok{,}\DecValTok{44}\NormalTok{,}\DecValTok{49}\NormalTok{,}\DecValTok{41}\NormalTok{,}\DecValTok{46}\NormalTok{,}\DecValTok{53}\NormalTok{,}\DecValTok{52}\NormalTok{,}\DecValTok{54}\NormalTok{,}\DecValTok{53}\NormalTok{),}
+\AttributeTok{CV =} \FunctionTok{c}\NormalTok{(}\FloatTok{4.8}\NormalTok{,}\FloatTok{3.9}\NormalTok{,}\FloatTok{5.6}\NormalTok{,}\FloatTok{4.5}\NormalTok{,}\FloatTok{9.8}\NormalTok{,}\FloatTok{7.2}\NormalTok{,}\FloatTok{13.5}\NormalTok{,}\FloatTok{10.1}\NormalTok{,}\FloatTok{5.7}\NormalTok{,}\FloatTok{5.9}\NormalTok{,}\FloatTok{5.6}\NormalTok{,}\FloatTok{5.8}\NormalTok{))}
+
+\NormalTok{fatoriais}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##     A  B  C Resistencia   CV
+## 1  -1 -1 -1          52  4.8
+## 2   1 -1 -1          55  3.9
+## 3  -1  1 -1          50  5.6
+## 4   1  1 -1          54  4.5
+## 5  -1 -1  1          44  9.8
+## 6   1 -1  1          49  7.2
+## 7  -1  1  1          41 13.5
+## 8   1  1  1          46 10.1
+## 9   0  0  0          53  5.7
+## 10  0  0  0          52  5.9
+## 11  0  0  0          54  5.6
+## 12  0  0  0          53  5.8
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{mean}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\DecValTok{53}\NormalTok{,}\DecValTok{52}\NormalTok{,}\DecValTok{54}\NormalTok{,}\DecValTok{53}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 53
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{mean}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\DecValTok{52}\NormalTok{,}\DecValTok{55}\NormalTok{,}\DecValTok{50}\NormalTok{,}\DecValTok{54}\NormalTok{,}\DecValTok{44}\NormalTok{,}\DecValTok{49}\NormalTok{,}\DecValTok{41}\NormalTok{,}\DecValTok{46}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 48.875
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\StringTok{"53−48.875=4.125"}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "53−48.875=4.125"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{sd}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\DecValTok{53}\NormalTok{,}\DecValTok{52}\NormalTok{,}\DecValTok{54}\NormalTok{,}\DecValTok{53}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.8164966
+\end{verbatim}
+
+\section{variable indicadora PC}\label{variable-indicadora-pc}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{fatoriais}\SpecialCharTok{$}\NormalTok{PC}\OtherTok{=}\FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{)}
+\CommentTok{\# 0 = punto fatorial  1 = punto central}
+\FunctionTok{print}\NormalTok{(fatoriais)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##     A  B  C Resistencia   CV PC
+## 1  -1 -1 -1          52  4.8  0
+## 2   1 -1 -1          55  3.9  0
+## 3  -1  1 -1          50  5.6  0
+## 4   1  1 -1          54  4.5  0
+## 5  -1 -1  1          44  9.8  0
+## 6   1 -1  1          49  7.2  0
+## 7  -1  1  1          41 13.5  0
+## 8   1  1  1          46 10.1  0
+## 9   0  0  0          53  5.7  1
+## 10  0  0  0          52  5.9  1
+## 11  0  0  0          54  5.6  1
+## 12  0  0  0          53  5.8  1
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{fat\_only }\OtherTok{\textless{}{-}}\NormalTok{ fatoriais[fatoriais}\SpecialCharTok{$}\NormalTok{PC }\SpecialCharTok{==} \DecValTok{0}\NormalTok{, ]}
+\end{Highlighting}
+\end{Shaded}
+
+\section{Error puro de centrales}\label{error-puro-de-centrales}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pc\_res}\OtherTok{=}\FunctionTok{c}\NormalTok{(}\DecValTok{53}\NormalTok{, }\DecValTok{52}\NormalTok{, }\DecValTok{54}\NormalTok{, }\DecValTok{53}\NormalTok{)}
+\NormalTok{pc\_cv}\OtherTok{=}\FunctionTok{c}\NormalTok{(}\FloatTok{5.7}\NormalTok{, }\FloatTok{5.9}\NormalTok{, }\FloatTok{5.6}\NormalTok{, }\FloatTok{5.8}\NormalTok{)}
+
+\FunctionTok{cat}\NormalTok{(}\StringTok{"\#ERROR PURO – Resistencia \#}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## #ERROR PURO – Resistencia #
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\FunctionTok{sprintf}\NormalTok{(}\StringTok{"Media  ȳ\_C : \%.4f MPa}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{,  }\FunctionTok{mean}\NormalTok{(pc\_res)))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Media  ȳ_C : 53.0000 MPa
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\FunctionTok{sprintf}\NormalTok{(}\StringTok{"SD puro    : \%.4f MPa}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{,  }\FunctionTok{sd}\NormalTok{(pc\_res)))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## SD puro    : 0.8165 MPa
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\FunctionTok{sprintf}\NormalTok{(}\StringTok{"Varianza   : \%.4f MPa²}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{, }\FunctionTok{var}\NormalTok{(pc\_res)))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Varianza   : 0.6667 MPa²
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{\#ERROR PURO – CV Torque \#}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## #ERROR PURO – CV Torque #
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\FunctionTok{sprintf}\NormalTok{(}\StringTok{"Media  ȳ\_C : \%.4f \%\%}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{,  }\FunctionTok{mean}\NormalTok{(pc\_cv)))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Media  ȳ_C : 5.7500 %
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\FunctionTok{sprintf}\NormalTok{(}\StringTok{"SD puro    : \%.4f \%\%}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{,  }\FunctionTok{sd}\NormalTok{(pc\_cv)))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## SD puro    : 0.1291 %
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\FunctionTok{sprintf}\NormalTok{(}\StringTok{"Varianza   : \%.4f \%\%²}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{, }\FunctionTok{var}\NormalTok{(pc\_cv)))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Varianza   : 0.0167 %²
+\end{verbatim}
+
+\section{Comparar medias y calcular
+curvatura}\label{comparar-medias-y-calcular-curvatura}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Medias}
+\NormalTok{y\_C\_res }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(pc\_res)          }\CommentTok{\# 53.000}
+\NormalTok{y\_F\_res }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\DecValTok{52}\NormalTok{,}\DecValTok{55}\NormalTok{,}\DecValTok{50}\NormalTok{,}\DecValTok{54}\NormalTok{,}\DecValTok{44}\NormalTok{,}\DecValTok{49}\NormalTok{,}\DecValTok{41}\NormalTok{,}\DecValTok{46}\NormalTok{))  }\CommentTok{\# 48.875}
+
+\NormalTok{y\_C\_cv  }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(pc\_cv)           }\CommentTok{\# 5.750}
+\NormalTok{y\_F\_cv  }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\FloatTok{4.8}\NormalTok{,}\FloatTok{3.9}\NormalTok{,}\FloatTok{5.6}\NormalTok{,}\FloatTok{4.5}\NormalTok{,}\FloatTok{9.8}\NormalTok{,}\FloatTok{7.2}\NormalTok{,}\FloatTok{13.5}\NormalTok{,}\FloatTok{10.1}\NormalTok{))  }\CommentTok{\# 7.425}
+
+\NormalTok{n\_F }\OtherTok{\textless{}{-}} \DecValTok{8}   \CommentTok{\# puntos fatoriales}
+\NormalTok{n\_C }\OtherTok{\textless{}{-}} \DecValTok{4}   \CommentTok{\# puntos centrales}
+
+\CommentTok{\# SS curvatura}
+\NormalTok{SS\_curv\_res }\OtherTok{\textless{}{-}}\NormalTok{ (n\_F }\SpecialCharTok{*}\NormalTok{ n\_C }\SpecialCharTok{/}\NormalTok{ (n\_F }\SpecialCharTok{+}\NormalTok{ n\_C)) }\SpecialCharTok{*}\NormalTok{ (y\_C\_res }\SpecialCharTok{{-}}\NormalTok{ y\_F\_res)}\SpecialCharTok{\^{}}\DecValTok{2}
+\NormalTok{SS\_curv\_cv  }\OtherTok{\textless{}{-}}\NormalTok{ (n\_F }\SpecialCharTok{*}\NormalTok{ n\_C }\SpecialCharTok{/}\NormalTok{ (n\_F }\SpecialCharTok{+}\NormalTok{ n\_C)) }\SpecialCharTok{*}\NormalTok{ (y\_C\_cv  }\SpecialCharTok{{-}}\NormalTok{ y\_F\_cv)}\SpecialCharTok{\^{}}\DecValTok{2}
+
+\CommentTok{\# F curvatura}
+\NormalTok{F\_curv\_res }\OtherTok{\textless{}{-}}\NormalTok{ SS\_curv\_res }\SpecialCharTok{/} \FunctionTok{var}\NormalTok{(pc\_res)}
+\NormalTok{F\_curv\_cv  }\OtherTok{\textless{}{-}}\NormalTok{ SS\_curv\_cv  }\SpecialCharTok{/} \FunctionTok{var}\NormalTok{(pc\_cv)}
+
+\FunctionTok{cat}\NormalTok{(}\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{=== PRUEBA DE CURVATURA ===}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## === PRUEBA DE CURVATURA ===
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\FunctionTok{sprintf}\NormalTok{(}\StringTok{"Resistencia – Δ = \%+.3f MPa | F = \%.2f}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{,}
+\NormalTok{            y\_C\_res }\SpecialCharTok{{-}}\NormalTok{ y\_F\_res, F\_curv\_res))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Resistencia – Δ = +4.125 MPa | F = 68.06
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\FunctionTok{sprintf}\NormalTok{(}\StringTok{"CV Torque   – Δ = \%+.3f \%\%  | F = \%.2f}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{,}
+\NormalTok{            y\_C\_cv }\SpecialCharTok{{-}}\NormalTok{ y\_F\_cv, F\_curv\_cv))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## CV Torque   – Δ = -1.675 %  | F = 448.90
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{F crítico al 5\% con gl(1,3) = 10.13}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## F crítico al 5% con gl(1,3) = 10.13
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\FunctionTok{sprintf}\NormalTok{(}\StringTok{"Curvatura Resistencia: \%s}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{,}
+            \FunctionTok{ifelse}\NormalTok{(F\_curv\_res }\SpecialCharTok{\textgreater{}} \FloatTok{10.13}\NormalTok{, }\StringTok{"SIGNIFICATIVA ✅"}\NormalTok{, }\StringTok{"no significativa"}\NormalTok{)))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Curvatura Resistencia: SIGNIFICATIVA ✅
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\FunctionTok{sprintf}\NormalTok{(}\StringTok{"Curvatura CV Torque  : \%s}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{,}
+            \FunctionTok{ifelse}\NormalTok{(F\_curv\_cv  }\SpecialCharTok{\textgreater{}} \FloatTok{10.13}\NormalTok{, }\StringTok{"SIGNIFICATIVA ✅"}\NormalTok{, }\StringTok{"no significativa"}\NormalTok{)))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Curvatura CV Torque  : SIGNIFICATIVA ✅
+\end{verbatim}
+
+\section{Mod lineales con variable indicadora
+PC}\label{mod-lineales-con-variable-indicadora-pc}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Solo puntos fatoriales para efectos principales}
+\NormalTok{fatoriais\_ptos }\OtherTok{\textless{}{-}}\NormalTok{ fatoriais[fatoriais}\SpecialCharTok{$}\NormalTok{PC }\SpecialCharTok{==} \DecValTok{0}\NormalTok{, ]}
+
+\NormalTok{modelo\_res }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(Resistencia }\SpecialCharTok{\textasciitilde{}}\NormalTok{ A }\SpecialCharTok{+}\NormalTok{ B }\SpecialCharTok{+}\NormalTok{ C }\SpecialCharTok{+}\NormalTok{ A}\SpecialCharTok{:}\NormalTok{B }\SpecialCharTok{+}\NormalTok{ A}\SpecialCharTok{:}\NormalTok{C }\SpecialCharTok{+}\NormalTok{ B}\SpecialCharTok{:}\NormalTok{C }\SpecialCharTok{+}\NormalTok{ PC,}
+                 \AttributeTok{data =}\NormalTok{ fatoriais)}
+\NormalTok{modelo\_cv  }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(CV }\SpecialCharTok{\textasciitilde{}}\NormalTok{ A }\SpecialCharTok{+}\NormalTok{ B }\SpecialCharTok{+}\NormalTok{ C }\SpecialCharTok{+}\NormalTok{ A}\SpecialCharTok{:}\NormalTok{B }\SpecialCharTok{+}\NormalTok{ A}\SpecialCharTok{:}\NormalTok{C }\SpecialCharTok{+}\NormalTok{ B}\SpecialCharTok{:}\NormalTok{C }\SpecialCharTok{+}\NormalTok{ PC,}
+                 \AttributeTok{data =}\NormalTok{ fatoriais)}
+
+\FunctionTok{cat}\NormalTok{(}\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{=== MODELO – Resistencia ===}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## === MODELO – Resistencia ===
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{summary}\NormalTok{(modelo\_res)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## lm.default(formula = Resistencia ~ A + B + C + A:B + A:C + B:C + 
+##     PC, data = fatoriais)
+## 
+## Residuals:
+##         1         2         3         4         5         6         7         8 
+##  1.25e-01 -1.25e-01 -1.25e-01  1.25e-01 -1.25e-01  1.25e-01  1.25e-01 -1.25e-01 
+##         9        10        11        12 
+## -7.98e-17 -1.00e+00  1.00e+00 -7.98e-17 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)  48.8750     0.2577 189.663 4.64e-09 ***
+## A             2.1250     0.2577   8.246 0.001180 ** 
+## B            -1.1250     0.2577  -4.366 0.012009 *  
+## C            -3.8750     0.2577 -15.037 0.000114 ***
+## PC            4.1250     0.4463   9.242 0.000762 ***
+## A:B           0.1250     0.2577   0.485 0.652994    
+## A:C           0.3750     0.2577   1.455 0.219307    
+## B:C          -0.3750     0.2577  -1.455 0.219307    
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 0.7289 on 4 degrees of freedom
+## Multiple R-squared:  0.9902, Adjusted R-squared:  0.973 
+## F-statistic: 57.58 on 7 and 4 DF,  p-value: 0.000748
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{=== MODELO – CV Torque ===}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## === MODELO – CV Torque ===
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{summary}\NormalTok{(modelo\_cv)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## lm.default(formula = CV ~ A + B + C + A:B + A:C + B:C + PC, data = fatoriais)
+## 
+## Residuals:
+##      1      2      3      4      5      6      7      8      9     10     11 
+##  0.075 -0.075 -0.075  0.075 -0.075  0.075  0.075 -0.075 -0.050  0.150 -0.150 
+##     12 
+##  0.050 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)  7.42500    0.05449 136.273 1.74e-08 ***
+## A           -1.00000    0.05449 -18.353 5.19e-05 ***
+## B            1.00000    0.05449  18.353 5.19e-05 ***
+## C            2.72500    0.05449  50.013 9.56e-07 ***
+## PC          -1.67500    0.09437 -17.749 5.92e-05 ***
+## A:B         -0.12500    0.05449  -2.294 0.083474 .  
+## A:C         -0.50000    0.05449  -9.177 0.000783 ***
+## B:C          0.65000    0.05449  11.930 0.000283 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 0.1541 on 4 degrees of freedom
+## Multiple R-squared:  0.9989, Adjusted R-squared:  0.997 
+## F-statistic: 531.7 on 7 and 4 DF,  p-value: 9.061e-06
+\end{verbatim}
+
+\section{Efectos principales (solo puntos
+fatoriales)}\label{efectos-principales-solo-puntos-fatoriales}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{y\_res }\OtherTok{\textless{}{-}}\NormalTok{ fatoriais}\SpecialCharTok{$}\NormalTok{Resistencia[fatoriais}\SpecialCharTok{$}\NormalTok{PC }\SpecialCharTok{==} \DecValTok{0}\NormalTok{]}
+\NormalTok{y\_cv  }\OtherTok{\textless{}{-}}\NormalTok{ fatoriais}\SpecialCharTok{$}\NormalTok{CV[fatoriais}\SpecialCharTok{$}\NormalTok{PC }\SpecialCharTok{==} \DecValTok{0}\NormalTok{]}
+
+\NormalTok{efecto }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(s, y) }\FunctionTok{sum}\NormalTok{(s }\SpecialCharTok{*}\NormalTok{ y) }\SpecialCharTok{/}\NormalTok{ (}\FunctionTok{length}\NormalTok{(y)}\SpecialCharTok{/}\DecValTok{2}\NormalTok{)}
+
+\NormalTok{sA  }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{, }\DecValTok{1}\NormalTok{,}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{, }\DecValTok{1}\NormalTok{,}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{, }\DecValTok{1}\NormalTok{,}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{, }\DecValTok{1}\NormalTok{)}
+\NormalTok{sB  }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{,}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{1}\NormalTok{,}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{,}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{1}\NormalTok{)}
+\NormalTok{sC  }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{,}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{,}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{,}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{1}\NormalTok{)}
+
+\FunctionTok{cat}\NormalTok{(}\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{=== EFECTOS – Resistencia ===}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## === EFECTOS – Resistencia ===
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\FunctionTok{sprintf}\NormalTok{(}\StringTok{"Efecto A: \%+.3f MPa}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{, }\FunctionTok{efecto}\NormalTok{(sA, y\_res)))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Efecto A: +4.250 MPa
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\FunctionTok{sprintf}\NormalTok{(}\StringTok{"Efecto B: \%+.3f MPa}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{, }\FunctionTok{efecto}\NormalTok{(sB, y\_res)))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Efecto B: -2.250 MPa
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\FunctionTok{sprintf}\NormalTok{(}\StringTok{"Efecto C: \%+.3f MPa}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{, }\FunctionTok{efecto}\NormalTok{(sC, y\_res)))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Efecto C: -7.750 MPa
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{=== EFECTOS – CV Torque ===}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## === EFECTOS – CV Torque ===
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\FunctionTok{sprintf}\NormalTok{(}\StringTok{"Efecto A: \%+.3f \%\%}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{, }\FunctionTok{efecto}\NormalTok{(sA, y\_cv)))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Efecto A: -2.000 %
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\FunctionTok{sprintf}\NormalTok{(}\StringTok{"Efecto B: \%+.3f \%\%}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{, }\FunctionTok{efecto}\NormalTok{(sB, y\_cv)))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Efecto B: +2.000 %
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\FunctionTok{sprintf}\NormalTok{(}\StringTok{"Efecto C: \%+.3f \%\%}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{, }\FunctionTok{efecto}\NormalTok{(sC, y\_cv)))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Efecto C: +5.450 %
+\end{verbatim}
+
+\section{efeito}\label{efeito}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Ver los 3 gráficos juntos en una sola ventana}
+\FunctionTok{par}\NormalTok{(}\AttributeTok{mfrow =} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{3}\NormalTok{))}
+
+\CommentTok{\# {-}{-}{-} Interacción A×B {-}{-}{-}}
+\FunctionTok{with}\NormalTok{(fat\_only,}
+     \FunctionTok{interaction.plot}\NormalTok{(}
+       \AttributeTok{x.factor     =}\NormalTok{ A,}
+       \AttributeTok{trace.factor  =}\NormalTok{ B,}
+       \AttributeTok{response      =}\NormalTok{ Resistencia,}
+       \AttributeTok{col           =} \FunctionTok{c}\NormalTok{(}\StringTok{"steelblue"}\NormalTok{, }\StringTok{"tomato"}\NormalTok{),}
+       \AttributeTok{lwd           =} \DecValTok{2}\NormalTok{,}
+       \AttributeTok{type          =} \StringTok{"b"}\NormalTok{,          }\CommentTok{\# línea + puntos}
+       \AttributeTok{main          =} \StringTok{"Interacción A×B"}\NormalTok{,}
+       \AttributeTok{xlab          =} \StringTok{"A – Temperatura"}\NormalTok{,}
+       \AttributeTok{ylab          =} \StringTok{"Resistencia média (MPa)"}\NormalTok{,}
+       \AttributeTok{trace.label   =} \StringTok{"B – Rotación"}
+\NormalTok{     ))}
+
+\CommentTok{\# {-}{-}{-} Interacción A×C {-}{-}{-}}
+\FunctionTok{with}\NormalTok{(fat\_only,}
+     \FunctionTok{interaction.plot}\NormalTok{(}
+       \AttributeTok{x.factor     =}\NormalTok{ A,}
+       \AttributeTok{trace.factor  =}\NormalTok{ C,}
+       \AttributeTok{response      =}\NormalTok{ Resistencia,}
+       \AttributeTok{col           =} \FunctionTok{c}\NormalTok{(}\StringTok{"steelblue"}\NormalTok{, }\StringTok{"tomato"}\NormalTok{),}
+       \AttributeTok{lwd           =} \DecValTok{2}\NormalTok{,}
+       \AttributeTok{type          =} \StringTok{"b"}\NormalTok{,}
+       \AttributeTok{main          =} \StringTok{"Interacción A×C"}\NormalTok{,}
+       \AttributeTok{xlab          =} \StringTok{"A – Temperatura"}\NormalTok{,}
+       \AttributeTok{ylab          =} \StringTok{"Resistencia média (MPa)"}\NormalTok{,}
+       \AttributeTok{trace.label   =} \StringTok{"C – Teor de carga"}
+\NormalTok{     ))}
+
+\CommentTok{\# {-}{-}{-} Interacción B×C {-}{-}{-}}
+\FunctionTok{with}\NormalTok{(fat\_only,}
+     \FunctionTok{interaction.plot}\NormalTok{(}
+       \AttributeTok{x.factor     =}\NormalTok{ B,}
+       \AttributeTok{trace.factor  =}\NormalTok{ C,}
+       \AttributeTok{response      =}\NormalTok{ Resistencia,}
+       \AttributeTok{col           =} \FunctionTok{c}\NormalTok{(}\StringTok{"steelblue"}\NormalTok{, }\StringTok{"tomato"}\NormalTok{),}
+       \AttributeTok{lwd           =} \DecValTok{2}\NormalTok{,}
+       \AttributeTok{type          =} \StringTok{"b"}\NormalTok{,}
+       \AttributeTok{main          =} \StringTok{"Interacción B×C"}\NormalTok{,}
+       \AttributeTok{xlab          =} \StringTok{"B – Rotación"}\NormalTok{,}
+       \AttributeTok{ylab          =} \StringTok{"Resistencia média (MPa)"}\NormalTok{,}
+       \AttributeTok{trace.label   =} \StringTok{"C – Teor de carga"}
+\NormalTok{     ))}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{3._files/3._files/figure-latex/unnamed-chunk-8-1.pdf}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Volver a 1 gráfico por ventana}
+\FunctionTok{par}\NormalTok{(}\AttributeTok{mfrow =} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{1}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\section{Modelos}\label{modelos}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# {-}{-}{-} Definir medias {-}{-}{-}}
+\NormalTok{media\_fat\_res }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(fatoriais}\SpecialCharTok{$}\NormalTok{Resistencia[fatoriais}\SpecialCharTok{$}\NormalTok{PC }\SpecialCharTok{==} \DecValTok{0}\NormalTok{])}
+\NormalTok{media\_cen\_res }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(fatoriais}\SpecialCharTok{$}\NormalTok{Resistencia[fatoriais}\SpecialCharTok{$}\NormalTok{PC }\SpecialCharTok{==} \DecValTok{1}\NormalTok{])}
+
+\CommentTok{\# {-}{-}{-} Barplot {-}{-}{-}}
+\NormalTok{medias }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(media\_fat\_res, media\_cen\_res)}
+
+\FunctionTok{barplot}\NormalTok{(medias,}
+        \AttributeTok{names.arg =} \FunctionTok{c}\NormalTok{(}\StringTok{"Fatoriais}\SpecialCharTok{\textbackslash{}n}\StringTok{(n=8)"}\NormalTok{, }\StringTok{"Centrais}\SpecialCharTok{\textbackslash{}n}\StringTok{(n=4)"}\NormalTok{),}
+        \AttributeTok{col       =} \FunctionTok{c}\NormalTok{(}\StringTok{"steelblue"}\NormalTok{, }\StringTok{"tomato"}\NormalTok{),}
+        \AttributeTok{ylab      =} \StringTok{"Resistência média (MPa)"}\NormalTok{,}
+        \AttributeTok{main      =} \StringTok{"Comparação: Pontos Fatoriais vs. Centrais"}\NormalTok{,}
+        \AttributeTok{ylim      =} \FunctionTok{c}\NormalTok{(}\DecValTok{40}\NormalTok{, }\DecValTok{60}\NormalTok{))}
+
+\FunctionTok{abline}\NormalTok{(}\AttributeTok{h   =}\NormalTok{ medias,}
+       \AttributeTok{lty =} \DecValTok{2}\NormalTok{,}
+       \AttributeTok{col =} \FunctionTok{c}\NormalTok{(}\StringTok{"steelblue"}\NormalTok{,}\StringTok{"tomato"}\NormalTok{))}
+
+\FunctionTok{text}\NormalTok{(}\FloatTok{0.7}\NormalTok{, media\_fat\_res }\SpecialCharTok{+} \FloatTok{0.5}\NormalTok{,}
+     \FunctionTok{sprintf}\NormalTok{(}\StringTok{"\%.2f"}\NormalTok{, media\_fat\_res),}
+     \AttributeTok{col =} \StringTok{"steelblue"}\NormalTok{)}
+
+\FunctionTok{text}\NormalTok{(}\FloatTok{1.9}\NormalTok{, media\_cen\_res }\SpecialCharTok{+} \FloatTok{0.5}\NormalTok{,}
+     \FunctionTok{sprintf}\NormalTok{(}\StringTok{"\%.2f"}\NormalTok{, media\_cen\_res),}
+     \AttributeTok{col =} \StringTok{"tomato"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{3._files/3._files/figure-latex/unnamed-chunk-9-1.pdf}}
+
+\end{document}

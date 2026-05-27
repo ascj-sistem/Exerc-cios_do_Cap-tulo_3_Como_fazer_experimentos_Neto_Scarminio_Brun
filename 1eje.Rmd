@@ -1,0 +1,101 @@
+---
+word_document: default
+author: "Andres Stiven Carreño Jerez"
+output:
+  pdf_document: default
+  html_document:
+    df_print: paged
+  word_document: default
+title: "Extrusión de filamentos de PLA para fabricación aditiva"
+html_notebook: default
+---
+# Construção de planejamento fracionário
+```{r}
+library(FrF2)
+fatorial1=FrF2(nruns = 8, nfactors = 3 , factor.names = list(Temp = c(180, 200), Rot = c(30, 60), Vel = c(1.0, 2.0)),
+                 randomize = FALSE)
+```
+
+# Digite a resposta (diâmetro)
+```{r}
+diam= c(1.92, 1.86, 2.05, 1.98, 1.70, 1.65, 1.82, 1.76)
+fatorial2=add.response(fatorial1,diam)
+```
+
+```{r}
+print(fatorial2)
+```
+
+# Ajuste um modelo onde o diâmetro seja uma função de A, B, C e todas as suas interações.
+```{r}
+mod_compl=lm(diam ~ Temp * Rot * Vel, data = fatorial1)
+summary(mod_compl)
+```
+# ↑↑↑ Modelo saturado, e sempre ocorre em um desenho 2³ sem réplicas.
+
+# ↓↓↓ Gráfico (meio-normal) para identificar efeitos importantes.
+
+```{r}
+DanielPlot(mod_compl)
+```
+```{r}
+Efeitos=2*mod_compl$coefficients
+
+Efeitos
+```
+# ↓↓↓ Uma apresentação melhor
+
+```{r}
+Efeitos=2*mod_compl$coefficients
+
+data.frame(  Efecto = c("Media", "A(Temp)", "B(Rot)", "C(Vel)","AB", "AC", "BC", "ABC"), Valor  = round(Efeitos, 5))
+```
+
+# Efeitos Principais e Interações 
+# Gráfico de Efeitos Principais
+```{r}
+MEPlot(fatorial2)
+```
+# Gráfico de interação
+```{r}
+IAPlot(fatorial2)
+```
+
+
+# ¿Qué ensayo produce diámetro más cercano a 1,75 mm? ---
+```{r}
+
+fatorial2$error_nominal=abs(fatorial2$diam - 1.75)
+cat("\n--- Ensayo más cercano a 1,75 mm ---\n")
+print(fatorial2[order(fatorial2$error_nominal), c("Temp","Rot","Vel","diam","error_nominal")])
+```
+El factor más importante fue:
+C – Velocidad de arrastre (efecto = −0,220 mm)
+
+# ---  Su efecto NEGATIVO indica que pasar del nivel bajo
+al nivel alto REDUCE significativamente el diámetro.
+En este caso:
+  - Nivel bajo = 1,0 m/min
+  - Nivel alto = 2,0 m/min
+→ Mayor velocidad de arrastre produce filamentos más delgados.
+
+# ---  Los demás factores presentaron:
+  - B (Rotación): efecto moderado positivo (+0,120 mm)
+    Mayor rotación → más material → filamento más grueso
+  - A (Temperatura): efecto pequeño negativo (−0,060 mm)
+    Mayor temperatura → menor viscosidad → filamento más delgado
+  - AB, AC, BC, ABC: efectos despreciables (≤ 0,005 mm)
+    Los factores actúan de forma independiente entre sí
+
+# ---  La mejor condición experimental para alcanzar
+el diámetro nominal de 1,75 mm fue el ENSAYO 8:
+  - Temperatura  : 200 °C  (nivel alto)
+  - Rotación     : 60 rpm  (nivel alto)
+  - Vel. arrastre:  2,0 m/min (nivel alto)
+  - Diámetro obtenido : 1,76 mm
+  - Error al nominal  : 0,01 mm ← menor de todos
+
+# ---  Esta condición también presentó:
+  - Menor desviación estándar del diámetro (DP = 0,040 mm)
+  - Menor ovalización (2,1%)
+  → Es la condición más precisa Y más exacta del experimento.
