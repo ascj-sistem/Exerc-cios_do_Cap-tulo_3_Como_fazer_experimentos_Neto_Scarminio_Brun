@@ -1,4 +1,4 @@
-# Exerc-cios_do_Cap-tulo_3_Como_fazer_experimentos_Neto_Scarminio_Brun
+# Exercicios_do_Cap-tulo_3_Como_fazer_experimentos_Neto_Scarminio_Brun
 # 📊 Planejamento Fatorial Completo — Exercícios 1, 3 e 7
 
 Este projeto aplica técnicas de planejamento fatorial completo
